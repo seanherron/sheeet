@@ -1,10 +1,21 @@
+import csv
+import os
 from xlrd import open_workbook
-import csv 
 
-wb = open_workbook('data.xlsx', on_demand=True)
-for s in wb.sheets():
-    print 'Sheet:',s.name
-    with open('%s.csv' % s.name, 'wb') as f:
-        writer = csv.writer(f)
-        for rownum in xrange(s.nrows):
-            writer.writerow(s.row_values(rownum))
+# Get files in current directory
+path = './'
+listing = os.listdir(path)
+
+# Iterate through each file
+for filename in listing:
+    # Check to make sure the file is at least apparently excel
+    if filename.endswith('.xlsx') or filename.endswith('.xls'):
+        wb = open_workbook(filename, on_demand=True)
+        for s in wb.sheets():
+            print 'Sheeeting %s %s' % (filename, s.name)
+            with open('%s.csv' % s.name, 'wb') as f:
+                writer = csv.writer(f)
+                for rownum in xrange(s.nrows):
+                    writer.writerow(s.row_values(rownum))
+    else:
+        pass
