@@ -13,7 +13,7 @@ for filename in listing:
         wb = open_workbook(filename, on_demand=True)
         for s in wb.sheets():
             print 'Sheeeting %s %s' % (filename, s.name)
-            with open('%s.csv' % s.name, 'wb') as f:
+            with open('%s-%s.csv' % (filename.split(".")[0], s.name), 'wb') as f:
                 writer = csv.writer(f)
                 for rownum in xrange(s.nrows):
                     writer.writerow(s.row_values(rownum))
